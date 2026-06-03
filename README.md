@@ -1,1 +1,2 @@
 # CORDIC
+## software optimization strategies
