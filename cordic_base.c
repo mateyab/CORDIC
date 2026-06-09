@@ -1,6 +1,7 @@
-// Computed with scale factor = 2^13 = 8192. Obtained from testbench                   
-//int z_table[10] = { 6433, 3798, 2006, 1018, 511, 255, 127, 63, 31, 15 };
-int z_table[10];
+#include "cordic_R.h"
+
+// Computed with scale factor = 2^13 = 8192
+static const int z_table[10] = { 6433, 3798, 2006, 1018, 511, 255, 127, 63, 31, 15 };
 /*
  * cordic_R_fixed_point()
  *
