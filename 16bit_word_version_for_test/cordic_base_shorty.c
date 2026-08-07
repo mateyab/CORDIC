@@ -1,5 +1,10 @@
+#include "cordic_R.h"
+
+// THE ONLY THING DIFFERENT ABOUT THIS IS THE INTEGERS ARE NOW SHORT BECAUSE WE ARE USING 16-BIT WORDS.  THE CORDIC ALGORITHM IS THE SAME, JUST THE DATA TYPES ARE DIFFERENT.  
+// THIS IS FOR TESTING PURPOSES ONLY.  THE CORDIC ALGORITHM IS NOT LIMITED TO 16-BIT WORDS, IT CAN BE USED WITH ANY WORD LENGTH.
+
 // Computed with scale factor = 2^13 = 8192
-static const int z_table[10] = { 6433, 3798, 2006, 1018, 511, 255, 127, 63, 31, 15 };
+static const short z_table[10] = { 6433, 3798, 2006, 1018, 511, 255, 127, 63, 31, 15 };
 /*
  * cordic_R_fixed_point()
  *
@@ -14,16 +19,16 @@ static const int z_table[10] = { 6433, 3798, 2006, 1018, 511, 255, 127, 63, 31, 
  *
  * Domain of convergence: -pi/2 <= z[0] <= +pi/2
  */
-void cordic_R_fixed_point(int *x, int *y, int *z) {
-    int x_temp_1, y_temp_1, z_temp;
-    int x_temp_2, y_temp_2;
+void cordic_R_fixed_point(short *x, short *y, short *z) {
+    short x_temp_1, y_temp_1, z_temp;
+    short x_temp_2, y_temp_2;
     int i;
 
     x_temp_1 = *x;
     y_temp_1 = *y;
     z_temp   = *z;  //rotation mode: z is an INPUT (target angle)
 
-    for (i = 0; i < 10; i += 2) {
+    for (i = 0; i < 10; i++) {
         if (z_temp >= 0) {              /* sigma = +1: rotate CCW */
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
             y_temp_2 = y_temp_1 + (x_temp_1 >> i);
@@ -32,18 +37,6 @@ void cordic_R_fixed_point(int *x, int *y, int *z) {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
             z_temp  += z_table[i];
-        }
-        x_temp_1 = x_temp_2;
-        y_temp_1 = y_temp_2;
-
-        if (z_temp >= 0) {              /* sigma = +1: rotate CCW */
-            x_temp_2 = x_temp_1 - (y_temp_1 >> (i + 1));
-            y_temp_2 = y_temp_1 + (x_temp_1 >> (i + 1));
-            z_temp  -= z_table[i + 1];
-        } else {                        /* sigma = -1: rotate CW  */
-            x_temp_2 = x_temp_1 + (y_temp_1 >> (i + 1));
-            y_temp_2 = y_temp_1 - (x_temp_1 >> (i + 1));
-            z_temp  += z_table[i + 1];
         }
         x_temp_1 = x_temp_2;
         y_temp_1 = y_temp_2;

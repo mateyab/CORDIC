@@ -6,6 +6,6 @@
 #define Q_SCALE (1 << Q_FRAC)
 
 // Function prototype
-void cordic_R_fixed_point(int *x, int *y, int *z);
+void cordic_R_fixed_point(short *x, short *y, short *z);
 
 #endif 

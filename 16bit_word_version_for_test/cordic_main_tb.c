@@ -16,14 +16,14 @@ int main(void) {
         double theta_rad = theta_deg * M_PI / 180.0;
 
         // 1. Initialize fixed-point inputs
-        int x_init = Q_SCALE;                   // x = 1.0 in Q13
-        int y_init = 0;                         // y = 0.0 in Q13
-        int z_init = (int)(theta_rad * Q_SCALE); // target angle in Q13
+        short x_init = Q_SCALE;                   // x = 1.0 in Q13
+        short y_init = 0;                         // y = 0.0 in Q13
+        short z_init = (short)(theta_rad * Q_SCALE); // target angle in Q13
 
         // Variables that will be modified by the CORDIC function
-        int x_i = x_init;
-        int y_i = y_init;
-        int z_i = z_init;
+        short x_i = x_init;
+        short y_i = y_init;
+        short z_i = z_init;
 
         // 2. Run the CORDIC algorithm (defined in cordic_base.c)
         cordic_R_fixed_point(&x_i, &y_i, &z_i);
