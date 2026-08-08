@@ -22,56 +22,59 @@
 cordic_R_fixed_point:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, r6, r7, r8, lr}
+	push	{r4, r5, r6, r7, r8, r9, r10, lr}
 	mov	ip, #0
-	ldr	r4, [r2]
-	ldr	lr, .L12
-	mvns	r3, r4
-	ldr	r6, [r0]
-	ldr	r5, [r1]
+	ldr	r5, [r2]
+	ldr	r8, .L12
+	movw	lr, #6433
+	mvns	r4, r5
+	ldr	r7, [r0]
+	ldr	r6, [r1]
 .LPIC0:
-	add	lr, pc
-	lsrs	r3, r3, #31
+	add	r8, pc
+	lsrs	r4, r4, #31
 	b	.L4
 .L11:
-	ldr	r3, [lr]
-	sub	r6, r6, r8
-	add	r5, r5, r7
-	subs	r4, r4, r3
-.L3:
-	mvns	r3, r4
-	add	ip, ip, #1
-	add	lr, lr, #4
+	sub	r5, r5, r9
+	sub	r7, r7, r10
+	mvns	r4, r5
+	add	r6, r6, r3
 	cmp	ip, #9
-	lsr	r3, r3, #31
+	lsr	r4, r4, #31
 	beq	.L10
 .L4:
-	asr	r8, r5, ip
-	asr	r7, r6, ip
-	cmp	r3, #0
-	bne	.L11
-	ldr	r3, [lr]
-	add	r6, r6, r8
-	subs	r5, r5, r7
-	add	r4, r4, r3
-	b	.L3
-.L10:
+	mov	r3, ip
+	mov	r9, lr
+	asr	r10, r6, ip
+	ldr	lr, [r8, #4]!
+	add	ip, ip, #1
+	asr	r3, r7, r3
 	cmp	r4, #0
-	asr	r3, r5, #9
-	asr	r7, r6, #9
+	bne	.L11
+	add	r5, r5, r9
+	add	r7, r7, r10
+	mvns	r4, r5
+	subs	r6, r6, r3
+	cmp	ip, #9
+	lsr	r4, r4, #31
+	bne	.L4
+.L10:
+	cmp	r5, #0
+	asr	r4, r7, #9
+	asr	r3, r6, #9
 	ittte	ge
-	subge	r3, r6, r3
-	addge	r5, r5, r7
-	subge	r4, r4, #15
-	addlt	r3, r3, r6
+	addge	r4, r4, r6
+	subge	r7, r7, r3
+	subge	r5, r5, #15
+	addlt	r7, r7, r3
 	it	lt
-	sublt	r5, r5, r7
-	str	r3, [r0]
+	sublt	r4, r6, r4
+	str	r7, [r0]
 	it	lt
-	addlt	r4, r4, #15
-	str	r5, [r1]
-	str	r4, [r2]
-	pop	{r4, r5, r6, r7, r8, pc}
+	addlt	r5, r5, #15
+	str	r4, [r1]
+	str	r5, [r2]
+	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
 .L13:
 	.align	2
 .L12:
