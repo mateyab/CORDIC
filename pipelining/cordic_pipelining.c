@@ -7,48 +7,51 @@ void cordic_R_fixed_point(int *x, int *y, int *z) {
     int x_temp_1, y_temp_1, z_temp;
     int x_temp_2, y_temp_2;
     int sign_temp;
+    int dz, next_dz;
     int i;
 
     x_temp_1 = *x;
     y_temp_1 = *y;
     z_temp   = *z;
 
-
-     // Extract initial decision to pipeline condition evaluation
-
+    // Extract initial decision to pipeline condition evaluation
     sign_temp = (z_temp >= 0);
 
- 
-     // Computes iteration i using sign_temp pre-calculated from iteration i-1,
-     // while updating z_temp and preparing sign_temp for iteration i+1
+    // Preload angle for iteration 0 before loop starts
+    next_dz = z_table[0];
+
 
     for (i = 0; i < 9; i++) {
+        dz = next_dz;                 // angle loaded ahead of time
+        next_dz = z_table[i + 1];     // preload next iteration's angle now
+
         if (sign_temp) {
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
             y_temp_2 = y_temp_1 + (x_temp_1 >> i);
-            z_temp  -= z_table[i];
+            z_temp  -= dz;
         } else {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
-            z_temp  += z_table[i];
+            z_temp  += dz;
         }
 
-        // Pre-compute sign decision for iteration i + 1
         sign_temp = (z_temp >= 0);
 
         x_temp_1 = x_temp_2;
         y_temp_1 = y_temp_2;
     }
 
-// last iteration
+    // last iteration
+    dz = next_dz; 
+
     if (sign_temp) {
         x_temp_2 = x_temp_1 - (y_temp_1 >> 9);
         y_temp_2 = y_temp_1 + (x_temp_1 >> 9);
-        z_temp  -= z_table[9];
+        z_temp  -= dz;
     } else {
         x_temp_2 = x_temp_1 + (y_temp_1 >> 9);
         y_temp_2 = y_temp_1 - (x_temp_1 >> 9);
-        z_temp  += z_table[9];
+        z_temp  += dz;
     }
 
     *x = x_temp_2;
