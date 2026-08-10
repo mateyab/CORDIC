@@ -12,9 +12,6 @@ static const int z_table[10] = { 6433, 3798, 2006, 1018, 511, 255, 127, 63, 31, 
  *     z_temp >= 0 → sign bit 0 → 0x00000000 | 1 = +1
  *     z_temp <  0 → sign bit 1 → 0xFFFFFFFF | 1 = -1
  *
- *     Compiles the three update lines to predicated
- *     instructionsrather than a taken/not-taken
- *     branch that stalls the in-order pipeline.
  */
 void cordic_R_fixed_point(int *x, int *y, int *z) {
     int x_temp = *x;
