@@ -8,17 +8,17 @@ SOURCE_FUNCTION_RE = re.compile(r"([A-Za-z0-9_./]+\.c):([A-Za-z0-9_]+)")
 # Names (and order) of the 9 metrics Callgrind reports, and which of them
 # get shown as columns in the output table.
 METRIC_NAMES = [
-    "Instructions",
-    "Data reads",
-    "Data writes",
-    "L1 I-cache misses",
-    "L1 D-cache misses",
-    "L1 D-cache write misses",
-    "LL I-cache misses",
-    "LL D-cache misses",
-    "LL D-cache write misses",
+    "Ir",
+    "Dr",
+    "Dw",
+    "I1mr",
+    "D1mr",
+    "D1mw",
+    "ILmr",
+    "DLmr",
+    "DLmw",
 ]
-DISPLAYED_METRICS = METRIC_NAMES[:6]
+DISPLAYED_METRICS = METRIC_NAMES[:9]
 
 
 def extract_callgrind_metrics(filename, target_source=None):

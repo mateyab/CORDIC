@@ -24,7 +24,7 @@ cordic_R_fixed_point:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	ldr	ip, .L8
 	movs	r3, #0
-	push	{r4, r5, r6, r7, lr}
+	push	{r4, r5, r6, r7, lr} # 5 registers
 	ldr	r6, [r0]
 	ldr	r5, [r1]
 .LPIC0:
@@ -39,13 +39,13 @@ cordic_R_fixed_point:
 	addlt	r6, r6, r7
 	add	r3, r3, #1
 	ittee	ge
-	ldrge	r7, [ip]
+	ldrge	r7, [ip]  # load z_table[i] if >= 0
 	addge	r5, r5, lr
-	ldrlt	r7, [ip]
+	ldrlt	r7, [ip]  # load z_table[i]
 	sublt	r5, r5, lr
 	it	ge
 	subge	r4, r4, r7
-	add	ip, ip, #4
+	add	ip, ip, #4  #advance table pointer 
 	it	lt
 	addlt	r4, r4, r7
 	cmp	r3, #10

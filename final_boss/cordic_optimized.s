@@ -22,30 +22,30 @@
 cordic_R_fixed_point:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, r6, r7, lr}
-	mvn	r7, #6432
-	ldr	r4, [r2]
-	ldr	ip, [r0]
-	movw	r6, #61738
-	movt	r6, 65535
-	ldr	r3, [r1]
-	asrs	r5, r4, #31
-	movw	lr, #63530
-	movt	lr, 65535
-	orr	r5, r5, #1
-	mla	r4, r7, r5, r4
-	mls	r7, r5, r3, ip
-	mla	r3, r5, ip, r3
+	push	{r4, r5, r6, r7, lr} 			# 5 registers
+	mvn	r7, #6432 				# get 6433 from z_table
+	ldr	r4, [r2] 				# load register with z_temp = *z
+	ldr	ip, [r0] 				# load register with x_temp 
+	movw	r6, #61738			
+	movt	r6, 65535			# get next z_table value
+	ldr	r3, [r1]				# load with y_temp
+	asrs	r5, r4, #31			# z_temp >> 31" from `sigma = (z_temp >> 31) | 1
+	movw	lr, #63530			
+	movt	lr, 65535			# get next z_table value
+	orr	r5, r5, #1				# finishing this (z_temp >> 31) | 1
+	mla	r4, r7, r5, r4			# z_temp -= sigma * 6433
+	mls	r7, r5, r3, ip			# x_temp -= sigma * dy  (dy = y_temp >> 0)
+	mla	r3, r5, ip, r3			# y_temp += sigma * dx  (dx = x_temp >> 0)
 	movw	ip, #64518
-	movt	ip, 65535
-	asrs	r5, r4, #31
+	movt	ip, 65535			# next z_table preload
+	asrs	r5, r4, #31			# next iteration get sign of new z_temp
 	orr	r5, r5, #1
 	mla	r4, r6, r5, r4
 	asrs	r6, r3, #1
 	mls	r6, r5, r6, r7
 	asrs	r7, r7, #1
 	mla	r3, r5, r7, r3
-	asrs	r5, r4, #31
+	asrs	r5, r4, #31			# next iteration
 	orr	r5, r5, #1
 	asrs	r7, r3, #2
 	mla	r4, lr, r5, r4

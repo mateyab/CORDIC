@@ -22,11 +22,11 @@
 cordic_R_fixed_point:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, r6, r7, r8, r9, lr}
+	push	{r4, r5, r6, r7, r8, r9, lr}  # 7 registers +2 for the z table read
 	mov	ip, #0
 	ldr	lr, .L10
 	ldr	r6, [r0]
-	movw	r7, #6433
+	movw	r7, #6433  # next_dz = z_table[0]
 	ldr	r5, [r1]
 .LPIC0:
 	add	lr, pc
@@ -35,7 +35,7 @@ cordic_R_fixed_point:
 	mov	r3, ip
 	cmp	r4, #0
 	asr	r9, r5, ip
-	mov	r8, r7
+	mov	r8, r7  # dz = next_dz - no memory access
 	asr	r3, r6, r3
 	add	ip, ip, #1
 	ittte	ge
@@ -46,7 +46,7 @@ cordic_R_fixed_point:
 	itt	lt
 	sublt	r5, r5, r3
 	addlt	r4, r4, r8
-	ldr	r7, [lr, #4]!
+	ldr	r7, [lr, #4]!  # load and advance table pointer in 1 instruction 
 	cmp	ip, #9
 	bne	.L4
 	cmp	r4, #0
