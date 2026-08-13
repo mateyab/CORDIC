@@ -7,7 +7,7 @@
 
 int main(void) {
     // Array of angles to test (in degrees)
-    double test_angles[] = {30.0, 0.0, 90.0, 45.0, 150.0};
+    double test_angles[] = {30.0, 0.0, 90.0, 45.0, 150.0, -30.0, -90.0, -45.0, -150.0};
     // only doing one single test for now but should add any edge case scenarios like really small angles
     int num_tests = sizeof(test_angles) / sizeof(test_angles[0]);
     
