@@ -16,9 +16,9 @@ int main(void) {
         double theta_rad = theta_deg * M_PI / 180.0;
 
         // 1. Initialize fixed-point inputs
-        int x_init = Q_SCALE;                   // x = 1.0 in Q13
-        int y_init = 0;                         // y = 0.0 in Q13
-        int z_init = (int)(theta_rad * Q_SCALE); // target angle in Q13
+        int x_init = Q_SCALE;                   // x = 1.0 in Q1.13
+        int y_init = 0;                         // y = 0.0 in Q1.13
+        int z_init = (int)(theta_rad * Q_SCALE); // target angle in Q1.13
 
         // Variables that will be modified by the CORDIC function
         int x_i = x_init;
@@ -40,9 +40,9 @@ int main(void) {
         // 5. Simplified linear printout
         printf("--- Test Angle: %.2f deg ---\n", theta_deg);
         printf("inputs in float:                  angle=%.6f, x=1.000000, y=0.000000\n", theta_rad);
-        printf("inputs to cordic in q13:          z=%d, x=%d, y=%d\n\n", z_init, x_init, y_init);
+        printf("inputs to cordic in Q1.13:          z=%d, x=%d, y=%d\n\n", z_init, x_init, y_init);
         
-        printf("raw cordic output q13:            x=%d, y=%d, z_residual=%d\n", x_i, y_i, z_i);
+        printf("raw cordic output Q1.13:            x=%d, y=%d, z_residual=%d\n", x_i, y_i, z_i);
         printf("convert to float (gain-adjusted): x=%.6f, y=%.6f, z_residual=%.6f\n\n", cos_cordic, sin_cordic, z_residual);
         
         printf("math cos (float):                 %.6f\n", cos_math);

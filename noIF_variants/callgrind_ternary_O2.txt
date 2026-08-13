@@ -275,9 +275,9 @@ Ir          Dr          Dw         I1mr       D1mr       D1mw       ILmr       D
  .           .          .          .          .          .          .          .          .                   double theta_rad = theta_deg * M_PI / 180.0;
  .           .          .          .          .          .          .          .          .           
  .           .          .          .          .          .          .          .          .                   // 1. Initialize fixed-point inputs
- .           .          .          .          .          .          .          .          .                   int x_init = Q_SCALE;                   // x = 1.0 in Q13
- .           .          .          .          .          .          .          .          .                   int y_init = 0;                         // y = 0.0 in Q13
- .           .          .          .          .          .          .          .          .                   int z_init = (int)(theta_rad * Q_SCALE); // target angle in Q13
+ .           .          .          .          .          .          .          .          .                   int x_init = Q_SCALE;                   // x = 1.0 in Q1.13
+ .           .          .          .          .          .          .          .          .                   int y_init = 0;                         // y = 0.0 in Q1.13
+ .           .          .          .          .          .          .          .          .                   int z_init = (int)(theta_rad * Q_SCALE); // target angle in Q1.13
  .           .          .          .          .          .          .          .          .           
  .           .          .          .          .          .          .          .          .                   // Variables that will be modified by the CORDIC function
  .           .          .          .          .          .          .          .          .                   int x_i = x_init;
@@ -303,9 +303,9 @@ Ir          Dr          Dw         I1mr       D1mr       D1mw       ILmr       D
 1,557 ( 1.10%) 433 ( 1.17%) 208 ( 1.10%) 28 ( 2.55%) 27 ( 1.68%) 6 ( 1.97%) 0          8 ( 0.77%) 3 ( 1.42%)  => ./elf/../sysdeps/arm/dl-trampoline.S:_dl_runtime_resolve (2x)
 224 ( 0.16%) 84 ( 0.23%) 52 ( 0.28%) 6 ( 0.55%) 4 ( 0.25%) 1 ( 0.33%) 6 ( 0.69%) 3 ( 0.29%) 1 ( 0.47%)  => ./libio/putwchar_u.c:putchar (1x)
  .           .          .          .          .          .          .          .          .                   printf("inputs in float:                  angle=%.6f, x=1.000000, y=0.000000\n", theta_rad);
- .           .          .          .          .          .          .          .          .                   printf("inputs to cordic in q13:          z=%d, x=%d, y=%d\n\n", z_init, x_init, y_init);
+ .           .          .          .          .          .          .          .          .                   printf("inputs to cordic in Q1.13:          z=%d, x=%d, y=%d\n\n", z_init, x_init, y_init);
  .           .          .          .          .          .          .          .          .                   
- .           .          .          .          .          .          .          .          .                   printf("raw cordic output q13:            x=%d, y=%d, z_residual=%d\n", x_i, y_i, z_i);
+ .           .          .          .          .          .          .          .          .                   printf("raw cordic output Q1.13:            x=%d, y=%d, z_residual=%d\n", x_i, y_i, z_i);
  .           .          .          .          .          .          .          .          .                   printf("convert to float (gain-adjusted): x=%.6f, y=%.6f, z_residual=%.6f\n\n", cos_cordic, sin_cordic, z_residual);
  .           .          .          .          .          .          .          .          .                   
  .           .          .          .          .          .          .          .          .                   printf("math cos (float):                 %.6f\n", cos_math);

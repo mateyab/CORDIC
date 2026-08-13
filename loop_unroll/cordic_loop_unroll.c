@@ -4,14 +4,14 @@
 /*
  * cordic_R_fixed_point()
  *
- * CORDIC Rotation Mode - fixed-point (Q13) implementation
- * Inputs  : *x, *y  - initial vector components (Q13)
- *           *z      - desired rotation angle      (Q13, radians)
+ * CORDIC Rotation Mode - fixed-point (Q1.13) implementation
+ * Inputs  : *x, *y  - initial vector components (Q1.13)
+ *           *z      - desired rotation angle      (Q1.13, radians)
  * Outputs : *x, *y  - rotated vector, scaled by A[n] ~ 1.6468
  *           *z      - residual angle (ideally 0 after convergence)
  *
  * Decision rule: sigma[i] = +1 if z[i] >= 0,  -1 if z[i] < 0
- * Drives z toward 0 over 10 iterations (10-bit precision, Q13 wordlength)
+ * Drives z toward 0 over 10 iterations (10-bit precision, Q1.13 wordlength)
  *
  * Domain of convergence: -pi/2 <= z[0] <= +pi/2
  */
