@@ -7,7 +7,7 @@
 
 int main(void) {
     // Array of angles to test (in degrees)
-    double test_angles[] = {30.0};
+    double test_angles[] = {30.0, 0.0, 90.0, 45.0, 150.0};
     // only doing one single test for now but should add any edge case scenarios like really small angles
     int num_tests = sizeof(test_angles) / sizeof(test_angles[0]);
     
@@ -16,7 +16,7 @@ int main(void) {
         double theta_rad = theta_deg * M_PI / 180.0;
 
         // 1. Initialize fixed-point inputs
-        int x_init = Q_SCALE;                   // x = 1.0 in Q13
+        int x_init = Q_SCALE*(-1.0);                   // x = 1.0 in Q13
         int y_init = 0;                         // y = 0.0 in Q13
         int z_init = (int)(theta_rad * Q_SCALE); // target angle in Q13
 
